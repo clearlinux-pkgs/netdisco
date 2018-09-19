@@ -1,5 +1,5 @@
 PKG_NAME := netdisco
-URL = https://files.pythonhosted.org/packages/2c/b6/1df27a1075f2b59e7f061d107ed34b1308c8b88c229ebdbab4eb90d95ed7/netdisco-2.0.0.tar.gz
+URL = https://files.pythonhosted.org/packages/73/96/c54725fe0180c7cf79d60fe204b34f4425083ffc74ad4d105e82d9c45e02/netdisco-2.1.0.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
