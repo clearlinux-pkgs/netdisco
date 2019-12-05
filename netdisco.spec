@@ -4,7 +4,7 @@
 #
 Name     : netdisco
 Version  : 2.6.0
-Release  : 10
+Release  : 11
 URL      : https://files.pythonhosted.org/packages/ae/73/2a60ac3292203ac75528b1ae9a475fac6fff690e906cbc13e744701b2436/netdisco-2.6.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/ae/73/2a60ac3292203ac75528b1ae9a475fac6fff690e906cbc13e744701b2436/netdisco-2.6.0.tar.gz
 Summary  : Discover devices on your local network
