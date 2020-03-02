@@ -4,7 +4,7 @@
 #
 Name     : netdisco
 Version  : 2.6.0
-Release  : 12
+Release  : 13
 URL      : https://files.pythonhosted.org/packages/ae/73/2a60ac3292203ac75528b1ae9a475fac6fff690e906cbc13e744701b2436/netdisco-2.6.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/ae/73/2a60ac3292203ac75528b1ae9a475fac6fff690e906cbc13e744701b2436/netdisco-2.6.0.tar.gz
 Summary  : Discover devices on your local network
@@ -21,7 +21,59 @@ BuildRequires : zeroconf
 
 %description
 # NetDisco
+
 NetDisco is a Python 3 library to discover local devices and services. It allows to scan on demand or offer a service that will scan the network in the background in a set interval.
+
+Current methods of scanning:
+
+ - mDNS (includes Chromecast, Homekit)
+ - uPnP
+ - Plex Media Server using Good Day Mate protocol
+ - Logitech Media Server discovery protocol
+ - Daikin discovery protocol
+ - Web OS discovery protocol
+
+It is the library that powers the device discovery within [Home Assistant](https://home-assistant.io/).
+
+### We are no longer accepting PRs that implement custom discovery protocols. Only PRs that use mDNS or uPnP are supported. See [this issue](https://github.com/home-assistant/netdisco/issues/230)
+
+## Installation
+
+Netdisco is available on PyPi. Install using `pip3 install netdisco`.
+
+## Example
+
+From command-line:
+
+```bash
+python3 -m netdisco
+# To see all raw data:
+python3 -m netdisco dump
+```
+
+In your script:
+
+```python
+from netdisco.discovery import NetworkDiscovery
+
+netdis = NetworkDiscovery()
+
+netdis.scan()
+
+for dev in netdis.discover():
+    print(dev, netdis.get_info(dev))
+
+netdis.stop()
+```
+
+Will result in a list of discovered devices and their most important information:
+
+```
+DLNA ['http://192.168.1.1:8200/rootDesc.xml', 'http://192.168.1.150:32469/DeviceDescription.xml']
+google_cast [('Living Room.local.', 8009)]
+philips_hue ['http://192.168.1.2:80/description.xml']
+belkin_wemo ['http://192.168.1.10:49153/setup.xml']
+```
 
 %package license
 Summary: license components for the netdisco package.
@@ -44,6 +96,7 @@ python components for the netdisco package.
 Summary: python3 components for the netdisco package.
 Group: Default
 Requires: python3-core
+Provides: pypi(netdisco)
 
 %description python3
 python3 components for the netdisco package.
@@ -51,13 +104,20 @@ python3 components for the netdisco package.
 
 %prep
 %setup -q -n netdisco-2.6.0
+cd %{_builddir}/netdisco-2.6.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1554240649
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1583186108
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
@@ -65,7 +125,7 @@ python3 setup.py build
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/netdisco
-cp LICENSE.md %{buildroot}/usr/share/package-licenses/netdisco/LICENSE.md
+cp %{_builddir}/netdisco-2.6.0/LICENSE.md %{buildroot}/usr/share/package-licenses/netdisco/4a606a34022a7ef2eab88e43148dd48547d3c017
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -76,7 +136,7 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/netdisco/LICENSE.md
+/usr/share/package-licenses/netdisco/4a606a34022a7ef2eab88e43148dd48547d3c017
 
 %files python
 %defattr(-,root,root,-)
