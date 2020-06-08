@@ -4,7 +4,7 @@
 #
 Name     : netdisco
 Version  : 2.7.0
-Release  : 14
+Release  : 15
 URL      : https://files.pythonhosted.org/packages/32/7c/0d386af022c16e4fb10935b77f5a66dd64661240285249b99bde9c89ef6e/netdisco-2.7.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/32/7c/0d386af022c16e4fb10935b77f5a66dd64661240285249b99bde9c89ef6e/netdisco-2.7.0.tar.gz
 Summary  : Discover devices on your local network
@@ -62,7 +62,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1591627668
+export SOURCE_DATE_EPOCH=1591633847
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
